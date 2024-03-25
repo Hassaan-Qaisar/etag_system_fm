@@ -1,0 +1,442 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass/"
+     xml:base="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:user="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#user/"
+     xmlns:FMass="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#associatedWith -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#associatedWith">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#User_Account"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithETag"/>
+        <rdfs:comment xml:lang="en">This property relates a User Account instance to a specific VehicleWithETag instance, indicating which user account is associated with which vehicle equipped with an e-tag.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#controls -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#controls">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Access_Control_System"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station"/>
+        <rdfs:comment xml:lang="en">This property connects an Access Control System instance to the Reader Station(s) it manages, indicating which reader stations are controlled by a particular access control system.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasE-Tag -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasE-Tag">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithETag"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#E-Tag"/>
+        <rdfs:comment xml:lang="en">This property links a VehicleWithETag instance to its corresponding E-Tag instance, indicating that the vehicle has the specified electronic tag attached to it.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasTransaction -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasTransaction">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ReflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#vehicle"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction"/>
+        <rdfs:comment xml:lang="en">This property links a Vehicle instance to the Transactions it has engaged in, indicating the transactions involving the vehicle.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#indicates -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#indicates">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#LED_Indicator"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Access_Control_System"/>
+        <rdfs:comment xml:lang="en">his property relates an LED Indicator instance to the Access Control System instance that controls its state, indicating which access control system is responsible for managing the LED indicator.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#locatedAt -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#locatedAt">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location"/>
+        <rdfs:comment xml:lang="en">This property associates a Reader Station instance with its physical location represented by a Location instance. It indicates where the reader station is installed.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#controlsBarrier -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#controlsBarrier">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment></rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasColor -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasColor">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#LED_Indicator"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment></rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasReader -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasReader">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment></rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasUniqueIdentifier -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasUniqueIdentifier">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#E-Tag"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment></rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#transactionStatus -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#transactionStatus">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment></rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#transactionTime -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#transactionTime">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"></rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#user/accountName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#user/accountName">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#User_Account"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment></rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Access_Control_System -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Access_Control_System">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#controls"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#controls"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2147483647</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#E-Tag -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#E-Tag">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#LED_Indicator -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#LED_Indicator">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#indicates"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Access_Control_System"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#indicates"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Access_Control_System"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#User_Account"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#locatedAt"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#locatedAt"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#User_Account -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#User_Account">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#associatedWith"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithETag"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#associatedWith"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithETag"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithETag -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithETag">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#vehicle"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithoutETag"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithoutETag -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithoutETag">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#vehicle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#vehicle -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#vehicle">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasE-Tag"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#vehicle"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasTransaction"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasE-Tag"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#vehicle"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#hasTransaction"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2147483647</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#AccessControlSystem1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#AccessControlSystem1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Access_Control_System"/>
+        <FMass:controls rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#ReaderStation1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#ETag1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#ETag1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#E-Tag"/>
+        <FMass:hasUniqueIdentifier>ABC123</FMass:hasUniqueIdentifier>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#LEDIndicator1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#LEDIndicator1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#LED_Indicator"/>
+        <FMass:indicates rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#AccessControlSystem1"/>
+        <FMass:hasColor>red</FMass:hasColor>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#ReaderStation1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#ReaderStation1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Reader_Station"/>
+        <FMass:locatedAt rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Location_1"/>
+        <FMass:controlsBarrier rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</FMass:controlsBarrier>
+        <FMass:hasReader rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</FMass:hasReader>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction"/>
+        <FMass:transactionStatus>successful</FMass:transactionStatus>
+        <FMass:transactionTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2024-03-16T12:00:00</FMass:transactionTime>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#UserAccount1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#UserAccount1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#User_Account"/>
+        <FMass:associatedWith rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Vehicle_1"/>
+        <user:accountName>Ahmed Abdullah</user:accountName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Vehicle_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Vehicle_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithETag"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#vehicle"/>
+        <FMass:hasE-Tag rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Vehicle_1"/>
+        <FMass:hasTransaction rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Transaction1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Vehicle_2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#Vehicle_2">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#VehicleWithoutETag"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ahmadabdullah/ontologies/2024/2/FMass#vehicle"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi -->
+
