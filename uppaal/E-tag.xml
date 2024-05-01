@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan verified;</declaration>
+	<template>
+		<name x="5" y="5">Reader</name>
+		<declaration>// Place local declarations here.
+clock t_scan;
+bool vehicle_remove;
+bool vehicle_detected = true;
+chan verified;
+bool authorize ;  
+int time_out = 3;
+
+</declaration>
+		<location id="id0" x="-297" y="-136">
+			<name x="-307" y="-170">IDLE</name>
+		</location>
+		<location id="id1" x="204" y="-127">
+			<name x="194" y="-161">detected</name>
+		</location>
+		<location id="id2" x="204" y="8">
+			<name x="212" y="-25">Scanning</name>
+		</location>
+		<location id="id3" x="-127" y="0">
+			<name x="-137" y="-34">Denied</name>
+		</location>
+		<location id="id4" x="-212" y="110">
+			<name x="-222" y="76">Error</name>
+		</location>
+		<location id="id5" x="204" y="178">
+			<name x="212" y="144">Granted</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id6">
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-425" y="0">vehicle_remove = true</label>
+		</transition>
+		<transition id="id7">
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-221" y="-93">vehicle_remove = true</label>
+		</transition>
+		<transition id="id8">
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-178" y="42">t_scan &gt;= time_out</label>
+			<label kind="assignment" x="-161" y="102">t_scan := 0</label>
+		</transition>
+		<transition id="id9">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-42" y="-42">t_scan&lt;time_out &amp;&amp;
+!authorize</label>
+			<label kind="assignment" x="-17" y="8">t_scan := 0</label>
+		</transition>
+		<transition id="id10">
+			<source ref="id2"/>
+			<target ref="id5"/>
+			<label kind="guard" x="212" y="51">t_scan&lt;time_out &amp;&amp;
+authorize</label>
+			<label kind="synchronisation" x="212" y="93">verified!</label>
+			<label kind="assignment" x="212" y="119">t_scan := 0</label>
+		</transition>
+		<transition id="id11">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="212" y="-76">t_scan = 0</label>
+			<nail x="204" y="-8"/>
+		</transition>
+		<transition id="id12">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-119" y="-161">vehicle_detected</label>
+		</transition>
+	</template>
+	<template>
+		<name>Barrier</name>
+		<declaration>clock timer = 0;
+bool vehicle_pass;
+bool Manual_close;
+bool Manual_open;
+
+</declaration>
+		<location id="id13" x="-229" y="-119">
+			<name x="-239" y="-153">Closed</name>
+		</location>
+		<location id="id14" x="153" y="-119">
+			<name x="143" y="-153">Opening</name>
+			<label kind="invariant" x="170" y="-127">timer &lt;2</label>
+		</location>
+		<location id="id15" x="153" y="144">
+			<name x="127" y="161">Opened</name>
+		</location>
+		<location id="id16" x="-228" y="153">
+			<name x="-262" y="170">Closing</name>
+			<label kind="invariant" x="-323" y="144">timer &lt;2</label>
+		</location>
+		<init ref="id13"/>
+		<transition id="id17">
+			<source ref="id14"/>
+			<target ref="id16"/>
+			<label kind="guard" x="17" y="25">Manual_close</label>
+			<nail x="-17" y="59"/>
+		</transition>
+		<transition id="id18">
+			<source ref="id16"/>
+			<target ref="id14"/>
+		</transition>
+		<transition id="id19">
+			<source ref="id16"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-102" y="-25">Manual_open</label>
+		</transition>
+		<transition id="id20">
+			<source ref="id16"/>
+			<target ref="id13"/>
+			<label kind="assignment" x="-228" y="17">timer:=0</label>
+		</transition>
+		<transition id="id21">
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="guard" x="-102" y="119">vehicle_pass</label>
+			<label kind="assignment" x="-85" y="153">timer:=0</label>
+		</transition>
+		<transition id="id22">
+			<source ref="id14"/>
+			<target ref="id15"/>
+		</transition>
+		<transition id="id23">
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-85" y="-144">verified?</label>
+			<label kind="assignment" x="-93" y="-110">timer :=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Process = Reader();
+Process1 = Barrier();
+// List one or more processes to be composed into a system.
+system Process , Process1;
+</system>
+	<queries>
+		<query>
+			<formula/>
+			<comment/>
+		</query>
+	</queries>
+</nta>
