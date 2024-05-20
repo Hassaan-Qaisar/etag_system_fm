@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan a;
+chan delay;
+</declaration>
+	<template>
+		<name x="5" y="5">Reader</name>
+		<declaration>// Place local declarations here.
+clock t_scan;
+chan verified; 
+int time_out = 3;
+//vehicle detected array
+bool vehicle_detected_array[7] = {true, true, false, false, true, false, true};
+int index;
+
+//car data type is initialized
+typedef struct{
+  bool authorize;
+  int vehicle_remove;
+} car;
+
+//array of cars with authorize and removal values
+car vehicle_array[7] = {
+  {true,0},
+  {false,0},
+  {true,0},
+  {false,0},
+  {true,0},
+  {false,0},
+  {true,0}
+};
+int i;
+
+bool authorize_v;
+bool vehicle_detected_v;
+
+
+
+
+</declaration>
+		<location id="id0" x="-297" y="-136">
+			<name x="-340" y="-127">IDLE</name>
+		</location>
+		<location id="id1" x="204" y="-136">
+			<name x="194" y="-170">detected</name>
+		</location>
+		<location id="id2" x="204" y="59">
+			<name x="221" y="51">Scanning</name>
+		</location>
+		<location id="id3" x="-204" y="59">
+			<name x="-229" y="76">Denied</name>
+		</location>
+		<location id="id4" x="-297" y="229">
+			<name x="-356" y="221">Error</name>
+		</location>
+		<location id="id5" x="204" y="272">
+			<name x="221" y="263">Granted</name>
+		</location>
+		<location id="id6" x="-646" y="-272">
+			<name x="-705" y="-255">Not_Detected</name>
+		</location>
+		<location id="id7" x="433" y="-238">
+			<name x="433" y="-272">Already_Removed</name>
+		</location>
+		<location id="id8" x="433" y="-238">
+		</location>
+		<init ref="id0"/>
+		<transition id="id9">
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<nail x="-646" y="-357"/>
+			<nail x="-314" y="-357"/>
+		</transition>
+		<transition id="id10">
+			<source ref="id7"/>
+			<target ref="id0"/>
+			<nail x="433" y="-365"/>
+			<nail x="-297" y="-365"/>
+		</transition>
+		<transition id="id11">
+			<source ref="id1"/>
+			<target ref="id7"/>
+			<label kind="guard" x="272" y="-161">vehicle_array[i].vehicle_remove ==1</label>
+			<label kind="assignment" x="603" y="-195">i = (i + 1) % 7</label>
+			<nail x="595" y="-136"/>
+			<nail x="595" y="-238"/>
+		</transition>
+		<transition id="id12">
+			<source ref="id0"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-595" y="-272">!vehicle_detected_array[index]</label>
+			<label kind="assignment" x="-663" y="-195">index = (index + 1) % 7,
+vehicle_detected_v = false</label>
+		</transition>
+		<transition id="id13">
+			<source ref="id5"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-544" y="17">delay?</label>
+			<nail x="-484" y="272"/>
+			<nail x="-484" y="-136"/>
+			<nail x="-399" y="-136"/>
+		</transition>
+		<transition id="id14">
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-433" y="59">i = (i + 1) % 7</label>
+		</transition>
+		<transition id="id15">
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-238" y="-68">vehicle_array[i].vehicle_remove= 1,
+i = (i + 1) % 7</label>
+		</transition>
+		<transition id="id16">
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-161" y="187">t_scan &gt; time_out</label>
+			<label kind="assignment" x="-161" y="204">t_scan := 0</label>
+		</transition>
+		<transition id="id17">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-119" y="17">t_scan&lt;time_out &amp;&amp;
+vehicle_array[i].authorize==false</label>
+			<label kind="assignment" x="-85" y="68">t_scan := 0,
+authorize_v= false</label>
+		</transition>
+		<transition id="id18">
+			<source ref="id2"/>
+			<target ref="id5"/>
+			<label kind="guard" x="212" y="93">t_scan&lt;time_out &amp;&amp;
+vehicle_array[i].authorize== true</label>
+			<label kind="synchronisation" x="212" y="161">a!</label>
+			<label kind="assignment" x="212" y="187">t_scan := 0,
+i = (i + 1) % 7,
+authorize_v = true</label>
+		</transition>
+		<transition id="id19">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="212" y="-68">//gaurd condition
+vehicle_array[i].vehicle_remove ==0</label>
+			<label kind="assignment" x="212" y="-8">t_scan:=0</label>
+			<nail x="204" y="-8"/>
+		</transition>
+		<transition id="id20">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-93" y="-161">vehicle_detected_array[index]</label>
+			<label kind="assignment" x="-85" y="-136">index = (index + 1) % 7,
+vehicle_detected_v = true</label>
+			<nail x="187" y="-136"/>
+		</transition>
+	</template>
+	<template>
+		<name>Barrier</name>
+		<declaration>clock timer;
+bool vehicle_pass = true;
+bool Manual_close = false;
+bool Manual_open = false;
+
+
+
+
+
+</declaration>
+		<location id="id21" x="-229" y="-119">
+			<name x="-239" y="-153">Closed</name>
+		</location>
+		<location id="id22" x="246" y="-119">
+			<name x="236" y="-153">Opening</name>
+			<label kind="invariant" x="263" y="-127">timer &lt;2</label>
+		</location>
+		<location id="id23" x="246" y="153">
+			<name x="220" y="170">Opened</name>
+			<label kind="invariant" x="161" y="127">timer &lt; 5</label>
+		</location>
+		<location id="id24" x="-228" y="153">
+			<name x="-262" y="170">Closing</name>
+			<label kind="invariant" x="-314" y="144">timer &lt;2</label>
+		</location>
+		<init ref="id21"/>
+		<transition id="id25">
+			<source ref="id22"/>
+			<target ref="id23"/>
+			<label kind="assignment" x="246" y="17">timer:=0</label>
+		</transition>
+		<transition id="id26">
+			<source ref="id23"/>
+			<target ref="id23"/>
+			<label kind="guard" x="322" y="153">vehicle_pass == false</label>
+			<label kind="assignment" x="264" y="136">timer:=0</label>
+			<nail x="322" y="119"/>
+			<nail x="322" y="204"/>
+			<nail x="322" y="204"/>
+		</transition>
+		<transition id="id27">
+			<source ref="id22"/>
+			<target ref="id24"/>
+			<label kind="guard" x="8" y="42">Manual_close == true 
+&amp;&amp; Manual_open == false</label>
+			<nail x="8" y="42"/>
+		</transition>
+		<transition id="id28">
+			<source ref="id24"/>
+			<target ref="id22"/>
+		</transition>
+		<transition id="id29">
+			<source ref="id24"/>
+			<target ref="id22"/>
+			<label kind="guard" x="-110" y="-51">Manual_close == false &amp;&amp; 
+Manual_open == true</label>
+		</transition>
+		<transition id="id30">
+			<source ref="id24"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-221" y="-8">delay!</label>
+			<label kind="assignment" x="-306" y="-8">timer:=0</label>
+		</transition>
+		<transition id="id31">
+			<source ref="id23"/>
+			<target ref="id24"/>
+			<label kind="guard" x="-102" y="127">vehicle_pass == true</label>
+			<label kind="assignment" x="-85" y="161">timer:=0</label>
+		</transition>
+		<transition id="id32">
+			<source ref="id21"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-128" y="-144">a?</label>
+			<label kind="assignment" x="-136" y="-110">timer :=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+int r;
+Process = Reader();
+Process1 = Barrier();
+// List one or more processes to be composed into a system.
+system Process , Process1;
+</system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt; Process1.Opened </formula>
+			<comment />This query checks whether it is possible for the `Process1` (Barrier) to eventually reach the "Opened" state.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-12 18:54:43 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process1.Opening</formula>
+			<comment>This query verifies the possibility of the barrier entering the "Opening" state.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-12 18:54:45 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process1.Closing</formula>
+			<comment>The reachability of the "Closing" state for `Process1` is evaluated in this query.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-12 14:39:41 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process1.Closed</formula>
+			<comment>This query explores whether the barrier can reach the "Closed" state.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-12 18:54:49 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process.IDLE</formula>
+			<comment>This query examines whether the `Process` (Reader) can reach the "IDLE" state</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-12 18:54:51 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process.Scanning</formula>
+			<comment>The reachability of the "Scanning" state in the `Process`</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-12 18:54:52 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process.Denied</formula>
+			<comment>This query ensures that the system can transition to the "Denied" state</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-12 18:54:56 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process.Granted</formula>
+			<comment>The "Granted" state's reachability is tested in this query</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-12 18:54:58 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process.Error</formula>
+			<comment>This query checks if the `Process` can potentially encounter an "Error" state.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-12 18:54:59 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process.Not_Detected</formula>
+			<comment>reachability property</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 11:47:03 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process.Already_Removed</formula>
+			<comment>reachability property</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:04:45 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock
+</formula>
+			<comment>This query assesses the entire system to ensure that no deadlock condition can occur.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:46:18 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.vehicle_detected_v &amp;&amp; Process.authorize_v &amp;&amp; Process1.Opened) &amp;&amp; Process1.timer &lt;= 3
+</formula>
+			<comment>Utility property</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:46:11 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.vehicle_detected_v &amp;&amp; (Process.Granted || Process.Denied)) &amp;&amp; Process.t_scan &lt;= Process.time_out
+</formula>
+			<comment>Utility property</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:37:26 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process1.vehicle_pass &amp;&amp; Process1.Closed) &amp;&amp; Process1.timer &lt;= 3
+</formula>
+			<comment>Utility property</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:05:52 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.vehicle_detected_v &amp;&amp; Process.Granted imply ((Process1.Opened || Process.Denied) &amp;&amp; Process1.timer &lt;= 3))
+
+</formula>
+			<comment>Utility property</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:46:14 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not (Process1.Opened &amp;&amp; (not Process.authorize_v))
+</formula>
+<comment>Safety property: the barrier should not be opened unless the vehicle is authorized</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:35:58 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] (Process1.Opened &amp;&amp; Process1.Closing &amp;&amp; Process1.vehicle_pass imply Process1.Closed)
+</formula>
+			<comment>Safety property: The barrier should close if it is opened, closing, and a vehicle has passed</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:46:05 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not (Process1.Closing &amp;&amp; not Process1.vehicle_pass)
+</formula>
+			<comment>This safety query ensures that the barrier does not close if no vehicle is passing through, preventing potential damage or unnecessary operations.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:45:58 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; not (Process1.Closing &amp;&amp; Process.authorize_v)
+</formula>
+			<comment>This query checks for scenarios where the barrier might be closing despite having an authorization to open, which could indicate a fault or conflict in control logic.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:45:50 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not (Process1.Opened &amp;&amp; not (Process.vehicle_detected_v || Process1.Manual_open))
+</formula>
+			<comment>This ensures the barrier only opens if a vehicle is detected or manually triggered, adding a layer of security and operational integrity.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:45:41 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not ((Process1.Manual_open &amp;&amp; Process1.Closed) || (Process1.Manual_close &amp;&amp; Process1.Opened))
+</formula>
+			<comment>This safety query verifies that manual commands do not conflict with the current state of the barrier, ensuring that manual operations are coherent with the system's status and safety protocols.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:45:19 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process1.vehicle_pass &amp;&amp; Process1.Closed)
+</formula>
+			<comment>This liveness query tests if it is possible for a scenario where the `Process1` (Barrier) is in a closed state but still records a vehicle pass.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:45:17 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.vehicle_detected_v &amp;&amp; Process.authorize_v &amp;&amp; Process1.Opened)
+</formula>
+			<comment>This query evaluates whether the system can detect a vehicle, authorize it, and open the barrier successfully.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:45:13 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.authorize_v &amp;&amp; (Process1.Opened || Process.Denied))
+</formula>
+			<comment>This liveness query checks if authorization can lead either to the opening of the barrier or denial of access, indicating the system's responsiveness to authorization status changes and its ability to enforce security policies effectively.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:45:10 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.vehicle_detected_v &amp;&amp; (Process1.Opened || Process.Denied))
+</formula>
+			<comment>This query tests the system’s ability to handle detected vehicles by either granting access (opening the barrier) or denying it, ensuring it responds appropriately to vehicle detections.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:45:06 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.Denied &amp;&amp; Process.vehicle_detected_v &amp;&amp; (Process1.Opened || Process.Denied))
+</formula>
+			<comment>This fairness query checks if a detected vehicle that has been denied can lead to the barrier either staying closed or the denial being enforced.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:45:03 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.authorize_v &amp;&amp; Process1.Opened)</formula>
+			<comment>This query evaluates whether a vehicle that has been authorized always leads to the barrier being opened, ensuring that authorized access is not unjustly hindered or delayed.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:44:59 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.vehicle_detected_v &amp;&amp; Process.authorize_v &amp;&amp; Process1.Opened)
+</formula>
+			<comment>This checks for the essential operational sequence where a detected and authorized vehicle results in the barrier opening.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:44:54 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process1.vehicle_pass &amp;&amp; Process1.Closed &amp;&amp; Process.IDLE)
+</formula>
+			<comment>This query examines whether the system can record a vehicle passing through while the barrier is closed and the `Process` (Reader) is in an IDLE state.</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:44:41 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process.Granted &amp;&amp; Process1.Closing)</formula>
+			<comment>This checks if the system can reach a state where the barrier is closed and the reader process is idle</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:44:49 +0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (Process1.Closed &amp;&amp; Process.IDLE)
+</formula>
+			<comment>This fairness query assesses if a scenario is possible where access has been granted, but the barrier begins to close</comment>
+			<result outcome="success" type="quality" timestamp="2024-05-15 23:44:46 +0500">
+			</result>
+		</query>
+	</queries>
+</nta>
